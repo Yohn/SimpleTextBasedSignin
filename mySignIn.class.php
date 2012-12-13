@@ -1,16 +1,16 @@
 <?php
-/**
-		PHP Class for login info
-		text file based, simple login to get the cookie, and everyone can add users.
-		Written by Yohn @ http://www.skem9.com Personal Blog = http://www.yohns.com
-		Uses a SignIn class to do all the dirty work
+/*
+	PHP Class for login info
+	text file based, simple login to get the cookie, and everyone can add users.
+	Written by Yohn @ http://www.skem9.com Personal Blog = http://www.yohns.com
+	Uses a SignIn class to do all the dirty work
+
+	######	YOU NEED TO   ##################################################################
+	Make sure you CHMOD users.dat.php to 666
+	Edit mySignIn.class.php so it has your domain at the top instead of testing.me 
+	If you do not edit the mySignin.class.php domain name, you will not be able to signin.
 		
-######	YOU NEED TO   ##################################################################
-		Make sure you CHMOD users.dat.php to 666
-		Edit mySignIn.class.php so it has your domain at the top instead of testing.me 
-		If you do not edit the mySignin.class.php domain name, you will not be able to signin.
-		
-**/
+*/
 class mySignIn{
 
 	public function __construct(){
@@ -27,16 +27,15 @@ class mySignIn{
 			$line = "<?php die('missing data..'); ?>\n"; 
 		} else {
 			$line = '';
-			// check
-				$data = file($this->users);
-				$fows = count($data);
-				for($i=0;$i< $fows;$i++){
-					$parts = explode("|", $data[$i]);
-					if(isset($parts[1]) && urldecode($parts[1]) == $name){
-						$nono = true;
-						break;
-					}
+			$data = file($this->users);
+			$fows = count($data);
+			for($i=0;$i< $fows;$i++){
+				$parts = explode("|", $data[$i]);
+				if(isset($parts[1]) && urldecode($parts[1]) == $name){
+					$nono = true;
+					break;
 				}
+			}
 		}
 		if(!isset($nono)){
 			$line .= uniqid($name)."|".urlencode($name)."|".md5($pass)."|".$group."\n";
@@ -149,11 +148,11 @@ class mySignIn{
 	
 	public function signinForm(){
 		return '<form action="index.php" method="post" id="editLay">
-				<div class="form"><input type="hidden" name="do" value="Login" />
-				<label for="Uname">Username: </label><input type="text" size="22" name="Uname" id="Uname" /><br />
-				<label for="theDP">Password: </label><input type="password" size="22" name="theDP" id="theDP" /><br />
-				<div class="butts"><input type="submit" value="Login" name="logMeIn" /></div>
-				</div></form>';
+			<div class="form"><input type="hidden" name="do" value="Login" />
+			<label for="Uname">Username: </label><input type="text" size="22" name="Uname" id="Uname" /><br />
+			<label for="theDP">Password: </label><input type="password" size="22" name="theDP" id="theDP" /><br />
+			<div class="butts"><input type="submit" value="Login" name="logMeIn" /></div>
+			</div></form>';
 	}
 	
 	public function addNewUserForm($arr=array('id'=>'', 'name'=>'', 'pass'=>'', 'group'=>'')){
@@ -181,7 +180,8 @@ class mySignIn{
 					<label for="theDP">Password: </label><input type="text" id="theDP" name="theDP" value="" /><br />
 					<label for="group">Group: </label>'.$groups.'
 					<div class="butts"><input type="submit" name="'.$subValue.'" value="Save" />'.$AddDelete.'</div>
-				</div></form>';
+				</div>
+			</form>';
 	}
 }
 ?>
